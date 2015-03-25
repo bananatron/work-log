@@ -1,0 +1,23 @@
+<h1>Work Log  </h1>
+<a class="btn btn-default" href="/save" role="button">Save</a><br><br>
+<% am = true  %>
+<div class="row">
+  
+  <% 6.times do %>
+  <div class="col-md-2">  
+    <table class="<%= Date.today %>">
+      <tr><td class="date"><%= Date.today %></td></tr>
+      <% @day_length.times do  %>
+      <tr><td><%= @start_hour %> <%= "AM" if am %><%= "PM" if am == false %></td></tr>
+      <% @start_hour += 1 %>
+      <% @start_hour = 1 if @start_hour > 12 %>
+      <% am = false if @start_hour > 12 %>
+      <% end %>
+    </table>
+  </div>
+    
+  <% end %>
+</div>
+    
+   
+
