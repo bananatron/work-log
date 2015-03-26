@@ -3,8 +3,10 @@ require 'date'
 require 'firebase'
 
 configure :development do
+  set :server, 'webrick'
   set :bind, '0.0.0.0'
   set :port, 3000
+  
 end
 
   $base_uri = 'https://timelog.firebaseio.com/'
@@ -15,7 +17,6 @@ end
 get '/' do
   base_uri = 'https://timelog.firebaseio.com/'
   firebase = Firebase::Client.new(base_uri)
-  
   
   today = Date.today
   puts "GETTING ROOT! on #{today}"
@@ -28,9 +29,9 @@ get '/' do
   @start_hour = 8
   @day_length = 11
   @data_arr = {}
+  days = 6
 
-
-  6.times do 
+  days.times do 
     @data_arr[today.to_s] = firebase.get(today.to_s).body if firebase.get(today.to_s).body != nil
     today += 1
   end
@@ -42,24 +43,22 @@ get '/' do
 end
 
 
-get '/date/:date' do
-  #d = "02022014"
-  d = params[:date]
-  @start_date = Date.strptime(d,"%d%m%Y")
-  puts @start_date
-  @start_hour = 8
-  @day_length = 10
-  erb :index
-end
+# get '/date/:date' do
+#   #d = "02022014"
+#   d = params[:date]
+#   @start_date = Date.strptime(d,"%d%m%Y")
+#   puts @start_date
+#   @start_hour = 8
+#   @day_length = 10
+#   erb :index
+# end
 
 post '/save/:date/:hours/:msg' do
   
   msg = params[:msg]
   date = params[:date]
   hours = []
-  hours = params[:hours].split("_")
-  
-
+  hours = params[:hours].split("&&&")
   
   firebase = Firebase::Client.new($base_uri+"/"+date)
   
@@ -80,7 +79,7 @@ get '/save/:date/:hours/:msg' do
   msg = params[:msg]
   date = params[:date]
   hours = []
-  hours = params[:hours].split("_")
+  hours = params[:hours].split("&&&")
   
   firebase = Firebase::Client.new($base_uri+"/"+date)
   

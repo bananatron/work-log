@@ -1,8 +1,6 @@
 
 <h1>Work / log  </h1>
 
-
-
 <textarea id="msg_input" rows="6" class="form-control" placeholder="Write your details" required></textarea>
 <a id="save" class="btn btn-default" role="button">Save</a> &nbsp;&nbsp;&nbsp;<span id="results"></span><br><br> 
 <% am = true  %>
@@ -17,18 +15,16 @@
       <div class="col-md-2">  
         <table class="<%= curr_date %>">
           <tr>
-            <td class="date"><%= curr_date.strftime("%A")[0,3] + " <small>(" + curr_date.to_s + ")</small>" %> 
-             
-            </td>
+            <td class="date"><%= curr_date.strftime("%A")[0,3] + " <small>(" + curr_date.to_s + ")</small>" %></td>
           </tr>
 
-
           <% @day_length.times do  %>
-                <tr class="<%= curr_date %>">
-                  <td class="date_td" id="<%= sh %>"><%= sh %> <%= "AM" if am %><%= "PM" if !am %>
-                   <span class="td_content"><%=  @data_arr[curr_date.to_s.strip][sh.to_s] if @data_arr[curr_date.to_s.strip] %></td>
+          <% d = @data_arr[curr_date.to_s.strip]["_" + sh.to_s] if @data_arr[curr_date.to_s.strip].class.to_s == "Hash" %>
+                <tr class="<%= curr_date.to_s %>">
+                  <td class="date_td" id="_<%= sh.to_s %>"><%= sh %> <%= "AM" if am %><%= "PM" if !am %>
+                    <span class="td_visible_content"><%= " (" + d.split(" ").first + ")" if d %></span>
+                    <span class="td_content"><%= d %></td>
                   </td>
-                  
                 </tr>
                 <% sh += 1 %>
                 <% sh = 1 if sh > 12 %>
