@@ -1,2 +1,2 @@
 #Work Log
-Time tracking sinatra app.
+Simple/ugly work logging web app.
